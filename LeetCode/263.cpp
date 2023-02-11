@@ -1,5 +1,3 @@
-#include <cmath>
-
 class Solution {
 public:
     bool isUgly(int n)

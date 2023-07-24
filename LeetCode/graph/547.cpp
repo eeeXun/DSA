@@ -1,28 +1,30 @@
 class Solution {
 private:
-    void dfs(vector<vector<int>>& isConnected, vector<bool>& visited, int node)
+    int find(vector<int>& root, int node)
     {
-        visited.at(node) = true;
-        for (int i = 0; i < isConnected.size(); i++) {
-            if (visited.at(i))
-                continue;
-            if (isConnected.at(node).at(i) == 1)
-                dfs(isConnected, visited, i);
+        while (root.at(node) != -1) {
+            node = root.at(node);
         }
+        return node;
     }
 
 public:
     int findCircleNum(vector<vector<int>>& isConnected)
     {
-        int ans = 0;
-        vector<bool> visited(isConnected.size(), false);
+        int ans = isConnected.size();
+        vector<int> root(isConnected.size(), -1);
         for (int i = 0; i < isConnected.size(); i++) {
-            if (visited.at(i))
-                continue;
-            dfs(isConnected, visited, i);
-            ans++;
+            int p1 = find(root, i);
+            for (int j = 0; j < isConnected.size(); j++) {
+                if (j != i && isConnected.at(i).at(j)) {
+                    int p2 = find(root, j);
+                    if (p1 != p2) {
+                        ans--;
+                        root.at(p2) = p1;
+                    }
+                }
+            }
         }
-
         return ans;
     }
 };

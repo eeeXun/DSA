@@ -105,7 +105,8 @@ void insert(TreeNode*& node, int num)
         node->data = num;
         node->height = 1;
         return;
-    } else if (num < node->data) {
+    }
+    if (num < node->data) {
         insert(node->left, num);
     } else {
         insert(node->right, num);

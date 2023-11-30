@@ -8,7 +8,7 @@ enum Color { RED, BLACK };
 
 struct TreeNode {
     int data;
-    bool color;
+    Color color;
     TreeNode* left;
     TreeNode* right;
     TreeNode* parent;
@@ -93,7 +93,7 @@ void RBTree::fixViolation(TreeNode*& root, TreeNode*& node)
 {
     TreeNode* parent_node = nullptr;
     TreeNode* grand_parent_node = nullptr;
-    while ((node != root) && (node->color != BLACK)
+    while ((node != root) && (node->color == RED)
         && (node->parent->color == RED)) {
         parent_node = node->parent;
         grand_parent_node = node->parent->parent;
@@ -105,6 +105,7 @@ void RBTree::fixViolation(TreeNode*& root, TreeNode*& node)
                 parent_node->color = BLACK;
                 uncle_node->color = BLACK;
                 grand_parent_node->color = RED;
+                node = grand_parent_node;
             } else {
                 if (node == parent_node->right) {
                     leftRotate(root, parent_node);
@@ -124,6 +125,7 @@ void RBTree::fixViolation(TreeNode*& root, TreeNode*& node)
                 parent_node->color = BLACK;
                 uncle_node->color = BLACK;
                 grand_parent_node->color = RED;
+                node = grand_parent_node;
             } else {
                 if (node == parent_node->left) {
                     rightRotate(root, parent_node);
